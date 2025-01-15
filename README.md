@@ -44,3 +44,15 @@ This project is a web-based application for extracting structured data from PDF 
 4. The extracted data will be displayed on the web interface.
 
 5. You can download the extracted data in a structured format like JSON or CSV.
+
+## Custom Prompt Input Instructions
+
+1. In the web interface, you will find an input field to enter a custom prompt in natural language.
+
+2. Enter your custom prompt describing the specific data points you want to extract from the PDF.
+
+3. Upload the PDF file and submit the form.
+
+4. The application will use GPT-4 to process your custom prompt and extract the specified data points from the PDF.
+
+5. The extracted data will be displayed on the web interface and can be downloaded in a structured format like JSON or CSV.

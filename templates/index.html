@@ -9,12 +9,23 @@
 <body>
     <div class="container">
         <h1 class="mt-5">PDF Data Extraction Tool</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data" class="mt-4">
+        <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data" class="mt-4">
             <div class="form-group">
                 <label for="file">Upload PDF file:</label>
                 <input type="file" class="form-control-file" id="file" name="file" required>
             </div>
             <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        <form id="custom-prompt-form" action="/custom_prompt" method="post" enctype="multipart/form-data" class="mt-4">
+            <div class="form-group">
+                <label for="file">Upload PDF file:</label>
+                <input type="file" class="form-control-file" id="file" name="file" required>
+            </div>
+            <div class="form-group">
+                <label for="prompt">Enter custom prompt:</label>
+                <input type="text" class="form-control" id="prompt" name="prompt" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         <div id="extracted-data" class="mt-5">
             <h2>Extracted Data</h2>
@@ -22,10 +33,24 @@
         </div>
     </div>
     <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData(this);
             fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('data-output').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('custom-prompt-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/custom_prompt', {
                 method: 'POST',
                 body: formData
             })

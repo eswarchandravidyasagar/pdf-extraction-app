@@ -31,5 +31,23 @@ def upload_file():
         return jsonify(data_points)
     return 'Invalid file format'
 
+@app.route('/custom_prompt', methods=['POST'])
+def custom_prompt():
+    if 'file' not in request.files or 'prompt' not in request.form:
+        return 'No file or prompt part'
+    file = request.files['file']
+    prompt = request.form['prompt']
+    if file.filename == '':
+        return 'No selected file'
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        text = extract_text(file_path)
+        preprocessed_text = preprocess_text(text)
+        data_points = extract_data_points(preprocessed_text, prompt)
+        return jsonify(data_points)
+    return 'Invalid file format'
+
 if __name__ == '__main__':
     app.run(debug=True)
